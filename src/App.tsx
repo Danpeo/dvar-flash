@@ -2,6 +2,7 @@ import "./App.css";
 import { Home } from "./pages/Home.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FlashcardCollectionReview } from "./pages/FlashcardCollectionReview.tsx";
+import { FlashcardCollectionView } from "./pages/FlashcardCollectionView.tsx";
 
 function App() {
   return (
@@ -12,6 +13,10 @@ function App() {
           <Route
             path="/review/:collectionId"
             element={<FlashcardCollectionReview />}
+          />
+          <Route
+            path={"/view/:collectionId"}
+            element={<FlashcardCollectionView />}
           />
         </Routes>
       </BrowserRouter>

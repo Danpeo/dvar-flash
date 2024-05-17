@@ -9,18 +9,21 @@ import { flashcardCollectionsKey } from "../constants/storeKeys.ts";
 import { Button } from "./Button.tsx";
 import { updateCollectionInLocalStorage } from "../utils/flashcardUtils.ts";
 
-export const DisplayFlashcardCollections = () => {
+type DisplayFlashcardCollectionsProps = {
+  _flashcardCollections: FlashcardCollection[];
+};
+
+export const DisplayFlashcardCollections = ({
+  _flashcardCollections,
+}: DisplayFlashcardCollectionsProps) => {
   const navigate = useNavigate();
 
   const [flashcardCollections, setFlashcardCollections] = useState<
     FlashcardCollection[]
-  >([]);
+  >(_flashcardCollections);
   useEffect(() => {
-    const getFlashcardCollections = getFromLocalStorage<FlashcardCollection>(
-      flashcardCollectionsKey,
-    );
-    setFlashcardCollections(getFlashcardCollections);
-  }, [flashcardCollections]);
+    setFlashcardCollections(_flashcardCollections);
+  }, [_flashcardCollections]);
 
   const resetCollection = (collection: FlashcardCollection) => {
     for (let flashcard of collection.flashcards) {
@@ -45,10 +48,10 @@ export const DisplayFlashcardCollections = () => {
     <>
       {flashcardCollections.length > 0 ? (
         <>
-          <div className="grid grid-cols-5 gap-1">
+          <div className="grid grid-cols-5 gap-3 mt-4">
             {flashcardCollections.map((collection, index) => (
               <Fragment key={`${index}-main`}>
-                <div className="card-flip-x mt-4 mb-4 flex border border-red-500 p-6 bg-gray-800">
+                <div className="card-flip-x flex border border-red-500 p-6 bg-gray-800">
                   <div className="">
                     <p className="text-xl text-center font-semibold mb-3">
                       {collection.name}
@@ -57,6 +60,11 @@ export const DisplayFlashcardCollections = () => {
                       type={"button"}
                       buttonText={"REVIEW"}
                       onClick={() => navigate(`/review/${collection.id}`)}
+                    />
+                    <Button
+                      type={"button"}
+                      buttonText={"VIEW"}
+                      onClick={() => navigate(`/view/${collection.id}`)}
                     />
                     <Button
                       type={"button"}

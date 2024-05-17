@@ -4,16 +4,21 @@ import { Fragment, useState } from "react";
 import { FormSection } from "./FormSection.tsx";
 import { Button } from "./Button.tsx";
 import { FlashcardCollection } from "../entities/flashcardCollection.ts";
-import { getFromLocalStorage } from "../utils/localStorage.ts";
+import {
+  getFromLocalStorage,
+  setToLocalStorage,
+} from "../utils/localStorage.ts";
 import { flashcardCollectionsKey } from "../constants/storeKeys.ts";
 
 type AddNewFlashcardCollectionFormProps = {
   name?: string;
   flashcards: Flashcard[];
+  onAdded: () => void;
 };
 
 export const AddNewFlashcardCollectionForm = ({
   flashcards,
+  onAdded,
 }: AddNewFlashcardCollectionFormProps) => {
   const { register, handleSubmit, setValue } =
     useForm<AddNewFlashcardCollectionFormProps>({
@@ -40,13 +45,11 @@ export const AddNewFlashcardCollectionForm = ({
     }
 
     let flashcardCollections = getFromLocalStorage<FlashcardCollection>(
-      "flashcardCollections",
+      flashcardCollectionsKey,
     );
     flashcardCollections.push(newFlashcardCollection);
-    localStorage.setItem(
-      flashcardCollectionsKey,
-      JSON.stringify(flashcardCollections),
-    );
+    setToLocalStorage(flashcardCollectionsKey, flashcardCollections);
+    onAdded();
   };
 
   const handleAddFlashcard = () => {

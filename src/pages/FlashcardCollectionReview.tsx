@@ -22,7 +22,7 @@ export const FlashcardCollectionReview = () => {
   const [currentFlashcard, setCurrentFlashcard] = useState<number>(0);
   const [remembered, setRemembered] = useState<number>(0);
   const [forgotCount, setForgotCount] = useState<number>(0);
-  const [rememberedPerfectly, setrememberedPerfectly] = useState<number>(0);
+  const [rememberedPerfectly, setRememberedPerfectly] = useState<number>(0);
   const [showFront, setShowFront] = useState<boolean>(true);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const FlashcardCollectionReview = () => {
   const rememberPerfectly = () => {
     flashcardsToReview[currentFlashcard].rememberedInARow++;
     flashcardsToReview[currentFlashcard].doRemember = true;
-    setrememberedPerfectly(rememberedPerfectly + 1);
+    setRememberedPerfectly(rememberedPerfectly + 1);
     nextCard();
   };
 
@@ -79,6 +79,7 @@ export const FlashcardCollectionReview = () => {
     } else {
       animateFlip();
       setCurrentFlashcard(currentFlashcard + 1);
+      setShowFront(true);
     }
 
     if (reviewFinished) {
